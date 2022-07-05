@@ -126,7 +126,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+from boto.s3.connection import S3Connection
+
+# s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
+
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+
+AWS_REGION = 'ap-northeast-2'
+AWS_STORAGE_BUCKET_NAME = 'fbforus'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (
+    AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_DEFAULT_ACL = 'public-read'
+AWS_LOCATION = 'static'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# STATIC_URL = 'static/'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -144,17 +163,7 @@ django_heroku.settings(locals())
 SITE_ID=1
 
 DEFAULT_FILE_STORAGE = 'FootballForUs.storages.MediaStorage'
-STATICFILES_STORAGE = 'FootballForUs.storages.StaticStorage'
+# STATICFILES_STORAGE = 'FootballForUs.storages.StaticStorage'
 
 MEDIAFILES_LOCATION = 'media'
-STATICFILES_LOCATION = 'static'
-
-from boto.s3.connection import S3Connection
-
-# s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
-
-AWS_STORAGE_BUCKET_NAME = 'fbforus'
-
-AWS_S3_REGION_NAME = "ap-northeast-2"
-
-AWS_S3_SIGNATURE_VERSION = "s3v4"
+# STATICFILES_LOCATION = 'static'
