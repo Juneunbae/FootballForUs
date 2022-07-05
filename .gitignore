@@ -23,3 +23,5 @@ myvenv/
 .DS_Store
 .vscode/
 *.py[cod]
+
+makemigrations
