@@ -1,0 +1,41 @@
+body{
+    background : white url("images/stadium.jpg") no-repeat;
+    width: "width=device-width, initial-scale=1.0"
+}
+
+header{
+    position: relative;
+}
+
+header .navbar-brand{
+    font-weight: 500;
+}
+
+section.page .container{
+    padding-top: 200px;
+    padding-bottom: 160px;
+    padding-left: 80px;
+    padding-right: 80px;
+    position: relative;
+}
+
+section.page .headline h1{
+    font-size: 68px;
+    font-weight: 700;
+    letter-spacing: -2px;
+}
+
+section.page .headline p{
+    font-size: 40px;
+    font-weight: 500;
+}
+
+section.page .bodyline p{
+    font-size: 30px;
+    font-weight: 300;
+    color: grey-60;
+}
+
+section.page .form .name{
+    padding-top: 40px;
+}
