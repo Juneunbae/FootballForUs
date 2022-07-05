@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','93w%kw1$3%w%de!ygud!_&)rzp9j1+fb9xodtl%ixs7jb877ts')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DEBUG', 'True') != 'False')
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'FootballForUs.wsgi.application'
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_a42caed2cc28b98',
-        'USER': 'b4c9499ec5d722',
-        'PASSWORD': 'c46bea30',
+        'NAME': 'heroku_76d4a1aa0dddaa5',
+        'USER': 'ba74c963aa7d50',
+        'PASSWORD': 'dea88279',
         'HOST': 'us-cdbr-east-06.cleardb.net',
         'PORT': '3306',
     }
