@@ -1,1 +1,1 @@
-web: gunicorn FBFORUS.wsgi:application -log file-
+web: gunicorn FootballForUs.wsgi
