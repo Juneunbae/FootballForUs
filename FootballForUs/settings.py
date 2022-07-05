@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'FBForUs',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,19 @@ DATABASES['default'].update(db_from_env)
 django_heroku.settings(locals())
 
 SITE_ID=1
+
+DEFAULT_FILE_STORAGE = 'FootballForUs.storages.MediaStorage'
+STATICFILES_STORAGE = 'FootballForUs.storages.StaticStorage'
+
+MEDIAFILES_LOCATION = 'media'
+STATICFILES_LOCATION = 'static'
+
+from boto.s3.connection import S3Connection
+
+# s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
+
+AWS_STORAGE_BUCKET_NAME = 'fbforus'
+
+AWS_S3_REGION_NAME = "ap-northeast-2"
+
+AWS_S3_SIGNATURE_VERSION = "s3v4"
