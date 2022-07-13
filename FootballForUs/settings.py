@@ -122,11 +122,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
-
-django_heroku.settings(locals())
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -167,10 +162,16 @@ else:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+django_heroku.settings(locals())
+
 SITE_ID=1
 
 # DEFAULT_FILE_STORAGE = 'FootballForUs.storages.MediaStorage'
 # STATICFILES_STORAGE = 'FootballForUs.storages.StaticStorage'
 
 MEDIAFILES_LOCATION = 'media'
-STATICFILES_LOCATION = 'static'
+# STATICFILES_LOCATION = 'static'
