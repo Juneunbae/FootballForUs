@@ -140,8 +140,8 @@ def user_list(request) :
     # 전체 페이지 마지막 번호
     last_page_num = 0
 
-    for last_page in paginator.page_range:
-        last_page = last_page_num + 1
+    for last_page_num in paginator.page_range:
+        last_page_num = last_page_num + 1
 
     # 현재 페이지가 몇번째 블럭인지
     current_block = ((int(page) - 1) / max_page_count) + 1
