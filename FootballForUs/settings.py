@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+from my_DB import my_DATABASES
 from pathlib import Path
 import os
 import django_heroku
@@ -24,8 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','93w%kw1$3%w%de!ygud!_&)rzp9j1+fb9xodtl%ixs7jb877ts')
-
+SECRET_KEY = os.environ['secret_key']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -80,16 +79,7 @@ WSGI_APPLICATION = 'FootballForUs.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default' : {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_76d4a1aa0dddaa5',
-        'USER': 'ba74c963aa7d50',
-        'PASSWORD': 'dea88279',
-        'HOST': 'us-cdbr-east-06.cleardb.net',
-        'PORT': '3306',
-    }
-}
+DATABASES = my_DATABASES
 
 
 # Password validation

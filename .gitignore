@@ -25,3 +25,5 @@ myvenv/
 *.py[cod]
 
 makemigrations
+
+my_DB.py
