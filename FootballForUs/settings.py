@@ -134,6 +134,8 @@ django_heroku.settings(locals())
 from boto.s3.connection import S3Connection
 from storages.backends.s3boto3 import S3Boto3Storage
 
+# s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
+
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 # if DEBUG:
@@ -145,32 +147,20 @@ AWS_S3_SIGNATURE_VERSION = "s3v4"
 #     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # else:
-#     # AWS Setting
-#     AWS_REGION = 'ap-northeast-2'
-#     AWS_STORAGE_BUCKET_NAME = 'fbforus'
-#     AWS_QUERYSTRING_AUTH = False
-#     AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_REGION
-#     AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
-#     # Static Setting
-#     STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
-#     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-
-#     #Media Setting
-#     MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
-#     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-
-# DEFAULT_FILE_STORAGE = 'FootballForUs.storages.MediaStorage'
-# STATICFILES_STORAGE = 'FootballForUs.storages.StaticStorage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-MEDIAFILES_LOCATION = 'media'
-STATICFILES_LOCATION = 'static'
-
-AWS_ACCESS_KEY_ID = 'AKIA5AED5YX7BETGX37E'
-AWS_SECRET_ACCESS_KEY = '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'
+    # AWS Setting
+AWS_REGION = 'ap-northeast-2'
 AWS_STORAGE_BUCKET_NAME = 'fbforus'
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_REGION
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# Static Setting
+STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+#Media Setting
+MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -181,3 +171,6 @@ SITE_ID=1
 
 # DEFAULT_FILE_STORAGE = 'FootballForUs.storages.MediaStorage'
 # STATICFILES_STORAGE = 'FootballForUs.storages.StaticStorage'
+
+MEDIAFILES_LOCATION = 'media'
+STATICFILES_LOCATION = 'static'
