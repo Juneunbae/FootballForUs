@@ -66,6 +66,13 @@
    content = models.CharField(max_length=100)
    create_date = models.DateTimeField()
    modify_date = models.DateTimeField(blank=True, null=True)
+   
+  + comment는 댓글 Comment의 외래키이다. 댓글이 존재해야 대댓글을 쓸 수 있으므로, 댓글을 외래키로 설정하였다.
+    그리고 댓글 데이터가 삭제될 시, 같이 삭제되기 위한 조건으로 models.CASCADE를 선언해주었다.
+  + author는 작성자이므로, 회원가입-로그인에 성공한 유저를 외래키로 받았으며, 작성자의 정보가 없어지면 작성자가 쓴 글도 사라지게 하기위해 models.CASCADE를 선언해주었다.
+  + comment는 대댓글의 내용이므로, 100자 이상 필요하다고 생각하지 않아서, TextField 대신 CharField를 선언해주었다.
+  + create_date는 작성날짜이며, 날짜 데이터를 저장하기 위해 DateTimeField를 선언해주었다.
+  + 마찬가지로 수정이 되었으면 수정날짜를 기록하기 위해 DateTimeField를 선언해주었으며, 수정이 되지 않았을 때를 대비해 blank와 null을 True로 선언해주었다.
 ```
   * 작성하기
   * 수정하기
