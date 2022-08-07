@@ -10,8 +10,67 @@
 간단한 기능 소개
 
 * 회원가입
+```
+  def signup(request) :
+    if request.method == 'POST' :
+        form = RegisterForm(request.POST)
+        if form.is_valid() :
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            if User.objects.filter(email=request.POST['email']).exists():
+                messages.error(request, '사용 중인 아이디 입니다.')
+                return render(request, 'pages/signup.html')
+            else :
+                User.objects.create_user(email, email, password)
+                messages.success(request, '회원가입이 성공적으로 완료되었습니다!')
+            return redirect('FBForUs:login')
+    else :
+        form = RegisterForm()
+    context = {
+        'form' : form
+    }
+    return render(request, 'pages/signup.html', context)
+    
+  1. 요청 방식이 POST이고, 회원가입 폼이 유효하다면
+  2. email과 password cleaned data에 저장
+  3. 만약 User 데이터에 중복 이메일이 있으면, 에러
+  4. User 데이터에 중복 이메일이 존재하지 않으면 회원가입 성공
+```
 * 로그인
+```
+  def login(request) :
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = auth.authenticate(username=email, password=password)
+            if user:
+                auth.login(request, user)
+                return redirect('FBForUs:news_list')
+            else :
+                messages.error(request, '아이디 또는 비밀번호가 틀렸습니다!')
+    else:
+        form = LoginForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'pages/login.html', context)
+    
+  1. 요청 방식이 POST이고, 로그인 폼이 유효하다면
+  2. cleaned data에 email, password를 저장
+  3. username과 password를 user에 넣어 검사하기
+  4. 만약 유저이면 로그인
+  5. 유저가 아닐 시, 에러처리
+```
 * 로그아웃
+```
+  def logout(request) :
+    auth.logout(request)
+    return redirect('/FBForUs')
+    
+  1. 로그아웃 요청 시, 로그아웃 처리
+```
 ***
 * 축구 소식
 > News 모델은 author(글쓴이), title(제목), content(내용), content_image(글 사진), create_date(쓴 날짜), modify_date(수정 날짜)로 구성
