@@ -71,6 +71,9 @@
     
   1. 로그아웃 요청 시, 로그아웃 처리
 ```
+* ERD
+<img width="820" src="https://user-images.githubusercontent.com/96857114/184495138-0abb34ce-93e0-42ae-b683-63e883843fd7.png">
+
 ***
 * 축구 소식
 > News 모델은 author(글쓴이), title(제목), content(내용), content_image(글 사진), create_date(쓴 날짜), modify_date(수정 날짜)로 구성
@@ -126,14 +129,60 @@
    create_date = models.DateTimeField()
    modify_date = models.DateTimeField(blank=True, null=True)
    
-  + comment는 댓글 Comment의 외래키이다. 댓글이 존재해야 대댓글을 쓸 수 있으므로, 댓글을 외래키로 설정하였다.
-    그리고 댓글 데이터가 삭제될 시, 같이 삭제되기 위한 조건으로 models.CASCADE를 선언해주었다.
-  + author는 작성자이므로, 회원가입-로그인에 성공한 유저를 외래키로 받았으며, 작성자의 정보가 없어지면 작성자가 쓴 글도 사라지게 하기위해 models.CASCADE를 선언해주었다.
-  + comment는 대댓글의 내용이므로, 100자 이상 필요하다고 생각하지 않아서, TextField 대신 CharField를 선언해주었다.
-  + create_date는 작성날짜이며, 날짜 데이터를 저장하기 위해 DateTimeField를 선언해주었다.
-  + 마찬가지로 수정이 되었으면 수정날짜를 기록하기 위해 DateTimeField를 선언해주었으며, 수정이 되지 않았을 때를 대비해 blank와 null을 True로 선언해주었다.
++ comment는 댓글 Comment의 외래키이다. 댓글이 존재해야 대댓글을 쓸 수 있으므로, 댓글을 외래키로 설정하였다.
+  그리고 댓글 데이터가 삭제될 시, 같이 삭제되기 위한 조건으로 models.CASCADE를 선언해주었다.
++ author는 작성자이므로, 회원가입-로그인에 성공한 유저를 외래키로 받았으며, 작성자의 정보가 없어지면 작성자가 쓴 글도 사라지게 하기위해 models.CASCADE를 선언해주었다.
++ comment는 대댓글의 내용이므로, 100자 이상 필요하다고 생각하지 않아서, TextField 대신 CharField를 선언해주었다.
++ create_date는 작성날짜이며, 날짜 데이터를 저장하기 위해 DateTimeField를 선언해주었다.
++ 마찬가지로 수정이 되었으면 수정날짜를 기록하기 위해 DateTimeField를 선언해주었으며, 수정이 되지 않았을 때를 대비해 blank와 null을 True로 선언해주었다.
 ```
   * 작성하기
   * 수정하기
   * 삭제하기
+***
+* 페이징처리
+```
+from django.core.paginator import Paginator
 
+max_list_count = 12
+max_page_count = 10
+
+def news_list(request) :
+    page = request.GET.get('page', 1)
+    news_list = News.objects.order_by('-create_date')
+    paginator = Paginator(news_list, max_list_count)
+    page_obj = paginator.get_page(page)
+
+    # 전체 페이지 마지막 번호
+    last_page_num = 0
+
+    for last_page_num in paginator.page_range:
+        last_page_num = last_page_num + 1
+
+    # 현재 페이지가 몇번째 블럭인지
+    current_block = (( int(page) - 1 ) / max_page_count ) + 1
+    current_block = int(current_block)
+
+    # 페이지 시작번호
+    page_start_number = ((current_block - 1) * max_page_count) + 1
+
+    # 페이지 끝 번호
+    page_end_number = page_start_number + max_page_count - 1
+
+    context = {
+        'news_list' : page_obj,
+        'last_page_num' : last_page_num,
+        'page_start_number' : page_start_number,
+        'page_end_number' : page_end_number
+    }
+    return render(request, 'pages/news_list.html', context)
+```
++ Django에서 페이징 처리는 라이브러리를 이용해서 쉽게 구현할 수 있다.
+  from django.core.paginator import Paginator
++ 한 페이지에 몇개의 게시글을 보여줄건지 설정, max_list_count
++ 보여줄 최대 목록, max_page_count
++ 2페이지를 선택하면, url에 ?page=2가 붙는 걸 볼 수 있는데, 이 때 사용하는 것이 request.GET이다.
+  request.GET('page')를 쓰고, print로 출력해보면 2가 출력되는 것을 볼 수 있다.
+  page = request.GET.get('page', 1) 하면, ?page=1이 되는 것을 볼 수 있는데 1페이지부터 가져와야하므로 설정했다.
++ Paginator의 첫번째 인자는 queryset, 두번째 인자는 '우리가 한 페이지에 몇 개의 게시물을 볼지'
++ Pageinator 객체를 .get_page()메소드를 통해 page_obj를 만들어 템플릿에 넘겨준다.
